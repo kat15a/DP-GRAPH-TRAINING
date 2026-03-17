@@ -1,0 +1,36 @@
+class Solution {
+    public int numberOfArithmeticSlices(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+
+        for(int i = 0; i < n; i++){
+            for(int j = i + 1; j < n; j++){
+                long di             `ff = (long) nums[j] - nums[i];
+                res += helper(j + 1, j, diff, 2, nums);
+            }
+        }
+        return res;
+    }
+
+    private int helper(int i, int prev, long diff, int length, int[] nums){
+        int n = nums.length;
+        if(i == n) return 0;
+
+        int nottake = helper(i + 1, prev, diff, length, nums);
+
+        int take = 0;
+
+        if((long)nums[i] - nums[prev] == diff){
+
+            int newLen = length + 1;
+
+            if(newLen >= 3){
+                take = 1 + helper(i + 1, i, diff, newLen, nums);
+            }else{
+                take = helper(i + 1, i, diff, newLen, nums);
+            }
+        }
+
+        return take + nottake;
+    }
+}
