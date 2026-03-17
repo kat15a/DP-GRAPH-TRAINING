@@ -1,0 +1,24 @@
+class Solution {
+    public int numberOfArithmeticSlices(int[] nums) {
+        int n=nums.length;
+        int[][] dp=new int[n+1][n+1];
+        for(int i=0;i<n;i++){
+            Arrays.fill(dp[i],-1);
+        }
+        if(n<3)return 0;
+        return helper(2,0,nums,dp);
+    }
+    private int helper(int id,int count,int nums[],int[][] dp){
+        int n=nums.length;
+        if(id==n)return 0;
+        if(dp[id][count]!=-1)return dp[id][count];
+        int curr=0;
+        if(nums[id]-nums[id-1]==nums[id-1]-nums[id-2]){
+            curr=count+1;
+        }
+        else{
+            curr=0;
+        }
+        return dp[id][count]=curr +helper(id+1,curr,nums,dp);
+    }
+}
