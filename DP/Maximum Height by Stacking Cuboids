@@ -1,0 +1,23 @@
+class Solution {
+    public int maxHeight(int[][] cuboids) {
+        int n=cuboids.length;
+        for(int[] e: cuboids){
+            Arrays.sort(e);
+        }
+        Arrays.sort(cuboids, (a, b) -> {
+            if (a[0] != b[0]) return a[0] - b[0];
+            if (a[1] != b[1]) return a[1] - b[1];
+            return a[2] - b[2];
+        });
+        return helper(0,-1,cuboids,n);
+    }
+    private int helper(int i,int prev,int[][] cuboids,int n){
+        if(i==n)return 0;
+        int nottake=helper(i+1,prev,cuboids,n);
+        int take=0;
+        if(prev==-1 || (cuboids[prev][0]<=cuboids[i][0]&&cuboids[prev][1]<=cuboids[i][1]&& cuboids[prev][2]<=cuboids[i][2])){
+            take=cuboids[i][2]+helper(i+1,i,cuboids,n);
+        }
+        return Math.max(take,nottake);
+    }
+}
