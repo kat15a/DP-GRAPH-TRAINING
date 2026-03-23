@@ -1,0 +1,25 @@
+class Solution {
+    public int maxSizeSlices(int[] slices) {
+        int k=slices.length;
+        int [][] dp=new int[k+1][k+1];
+        for(int i =0;i<k;i++){
+            Arrays.fill(dp[i],-1);
+        }
+        int case1=helper(0,k-2,slices,k/3,dp);
+        for(int i =0;i<k;i++){
+            Arrays.fill(dp[i],-1);
+        }
+
+        int case2=helper(1,k-1,slices,k/3,dp);
+        return Math.max(case1,case2);
+        
+    }
+    private int helper(int i,int end ,int[] slices,int n,int[][] dp){
+        if (n == 0) return 0; 
+        if (i > end) return Integer.MIN_VALUE;
+        if(dp[i][n]!=-1)return dp[i][n];
+        int nottake=0+helper(i+1,end,slices,n,dp);
+        int take=slices[i]+helper(i+2,end,slices,n-1,dp);
+        return dp[i][n]=Math.max(take,nottake);
+    }
+}
